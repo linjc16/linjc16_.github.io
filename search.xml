@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CentOS7 gcc/g++离线升级</title>
+    <title>CentOS 7 gcc/g++离线升级</title>
     <url>/2020/05/30/Linux-g-gcc/</url>
     <content><![CDATA[<p>由于需要升级gcc/g++的Linux服务器无法连接外网，所以需要考虑离线gcc/g++升级的问题。当前gcc/g++的版本为4.8.5，需升级至5.4.0。需要安装m4、gmp、mpfr、mpc等。</p>
 <h2 id="m4安装"><a href="#m4安装" class="headerlink" title="m4安装"></a>m4安装</h2><p>gmp的安装依赖<a href="http://ftp.gnu.org/gnu/m4/" target="_blank" rel="noopener">m4</a>，下载后解压安装。</p>
