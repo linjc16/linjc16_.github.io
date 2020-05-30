@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/05/29/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+    <title>CentOS7 gcc/g++离线升级</title>
+    <url>/2020/05/30/Linux-g-gcc/</url>
+    <content><![CDATA[<p>由于需要升级gcc/g++的Linux服务器无法连接外网，所以需要考虑离线gcc/g++升级的问题。当前gcc/g++的版本为4.8.5，需升级至5.4.0。需要安装m4、gmp、mpfr、mpc等。</p>
+<h2 id="m4安装"><a href="#m4安装" class="headerlink" title="m4安装"></a>m4安装</h2><p>gmp的安装依赖<a href="http://ftp.gnu.org/gnu/m4/" target="_blank" rel="noopener">m4</a>，下载后解压安装。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar -zxvf m4-1.4.18.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> m4-1.4.18</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br><span class="line">$ make clean</span><br></pre></td></tr></table></figure>
+<h2 id="gmp安装"><a href="#gmp安装" class="headerlink" title="gmp安装"></a>gmp安装</h2><p>编译gcc需要<a href="http://ftp.tsukuba.wide.ad.jp/software/gcc/infrastructure/" target="_blank" rel="noopener">gmp</a>的版本<code>gmp&gt;=4.2</code>，下载后解压安装。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar -jxvf gmp-6.1.0.tar.bz2</span><br><span class="line">$ <span class="built_in">cd</span> gmp-6.1.0</span><br><span class="line">$ ./configure</span><br><span class="line">$ make -j4</span><br><span class="line">$ sudo make install</span><br><span class="line">$ make clean</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h2 id="mpfr安装"><a href="#mpfr安装" class="headerlink" title="mpfr安装"></a>mpfr安装</h2><p>编译gcc需要<a href="http://ftp.tsukuba.wide.ad.jp/software/gcc/infrastructure/" target="_blank" rel="noopener">mpfr</a>的版本<code>mpfr&gt;=2.4.0</code>，下载后解压安装。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar -jxvf mpfr-3.1.4.tar.bz2</span><br><span class="line">$ <span class="built_in">cd</span> mpfr-3.1.4</span><br><span class="line">$ ./configure </span><br><span class="line">$ make -j4</span><br><span class="line">$ sudo make install</span><br><span class="line">$ make clean</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h2 id="mpc安装"><a href="#mpc安装" class="headerlink" title="mpc安装"></a>mpc安装</h2><p>编译gcc需要<a href="http://ftp.tsukuba.wide.ad.jp/software/gcc/infrastructure/" target="_blank" rel="noopener">mpc</a>的版本<code>mpc&gt;=0.8.0</code>，下载后解压安装。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar -zxvf mpc-1.0.3.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> mpc-1.0.3</span><br><span class="line">$ ./configure</span><br><span class="line">$ make -j4</span><br><span class="line">$ make install</span><br><span class="line">$ make clean</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h2 id="gcc安装"><a href="#gcc安装" class="headerlink" title="gcc安装"></a>gcc安装</h2><p>安装包的获取：<a href="https://gcc.gnu.org/" target="_blank" rel="noopener">gcc官网</a>中的mirrors中下载。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar -zxvf gcc-5.4.0.tar.gz</span><br><span class="line">$ mkdir gcc-build</span><br><span class="line">$ <span class="built_in">cd</span> gcc-build</span><br><span class="line">$  ../gcc-8.3.0/configure --<span class="built_in">enable</span>-checking=release --<span class="built_in">enable</span>-language=c,c++ --<span class="built_in">disable</span>-multilib</span><br><span class="line">$ make -j4</span><br><span class="line">$ make install</span><br><span class="line">$ make clean</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>安装完成后，重新登录用户并查看版本</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gcc -v &amp; g++ -v</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>Diary</category>
+        <category>Linux配置</category>
       </categories>
       <tags>
-        <tag>PS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test_my_site</title>
-    <url>/2020/05/29/test-my-site/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>Diary</category>
-      </categories>
-      <tags>
-        <tag>Test</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
 </search>
