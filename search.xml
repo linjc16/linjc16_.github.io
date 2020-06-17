@@ -28,4 +28,36 @@
         <tag>Linux</tag>
       </tags>
   </entry>
+  <entry>
+    <title>使用VScode远程连接服务器</title>
+    <url>/2020/06/17/remote-ssh/</url>
+    <content><![CDATA[<h2 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h2><ul>
+<li>CPU服务器：Linux CentOS7，可连接外网</li>
+<li>GPU服务器：Linux CentOS7，无法连接外网，与CPU服务器共处同一局域网</li>
+<li>Windows 10 客户端：安装好OpenSSH<h2 id="OpenSSH安装"><a href="#OpenSSH安装" class="headerlink" title="OpenSSH安装"></a>OpenSSH安装</h2>若没有安装，则以管理员权限打开Powershell，输入指令<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Add-WindowsCapability</span> <span class="literal">-Online</span> <span class="literal">-Name</span> OpenSSH.Client~~~~<span class="number">0.0</span>.<span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="VScode安装"><a href="#VScode安装" class="headerlink" title="VScode安装"></a>VScode安装</h2><p>在官网下载Vscode，安装扩展插件<code>Remote-SSH</code>，安装结束后，左下角会出现绿色图标，点击并打开配置文件，文件位置在<code>C:\User\&lt;用户名&gt;\.ssh\config</code>，并设置服务器信息，以CPU服务器为例，设置如下。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Host SMIC-Machine-Jump</span><br><span class="line">    HostName 101.6.143.8</span><br><span class="line">    User linjc # 替换为自己的用户名</span><br><span class="line">    Port 22 # 替换端口号，默认22</span><br></pre></td></tr></table></figure>
+<p>由于连接GPU服务器时需要以CPU服务器为跳板，故这里命名为SMIC-Machine-Jump。点击SSH TARGETS下的服务器旁边的按钮纽可以直接进行连接。</p>
+<h2 id="离线服务器VScode-server安装"><a href="#离线服务器VScode-server安装" class="headerlink" title="离线服务器VScode-server安装"></a>离线服务器VScode-server安装</h2><p>由于CPU服务器能够与外网连接，故在远程连接CPU服务器时，其会自动更新对应VScode-server版本。所以，对于无法连接外网的GPU服务器，需要自己手动控制版本，或者甚至固定Windows电脑中VScode的版本不变。</p>
+<h3 id="下载对应版本的VScode-server"><a href="#下载对应版本的VScode-server" class="headerlink" title="下载对应版本的VScode-server"></a>下载对应版本的VScode-server</h3><p>在VScode中，通过<code>帮助</code>中的<code>关于</code>，复制<code>“提交”</code>部分的序列号。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;update.code.visualstudio.com&#x2F;commit:&lt;commit-id&gt;&#x2F;server-linux-x64&#x2F;stable</span><br></pre></td></tr></table></figure>
+<p>将上面&lt;commit-id&gt;替换成所复制的序列号，进入下载安装包文件。之后，将该文件包传输至服务器的中，并放入<code>~/.vscode-server/bin/&lt;commit-id&gt;</code> 目录下，执行命令如下，假设压缩包最初在<code>/home/&lt;username&gt;</code>中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ mkdir .vscode-server</span><br><span class="line">$ cd .vscode-server</span><br><span class="line">$ mkdir bin</span><br><span class="line">$ mv ..&#x2F;vscode-server-linux-x64.tar.gz .&#x2F;bin</span><br><span class="line">$ cd bin</span><br><span class="line">$ tar -xzf vscode-server-linux-x64.tar.gz</span><br><span class="line">$ mv vscode-server-linux-x64 &lt;commit-id&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="继续配置config文件"><a href="#继续配置config文件" class="headerlink" title="继续配置config文件"></a>继续配置config文件</h3><p>再在config文件中，配置如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Host SMIC-Machine</span><br><span class="line">    HostName 10.0.0.13</span><br><span class="line">    User linjc # 替换为自己的用户名</span><br><span class="line">    Port 22 # 替换端口号，默认22</span><br><span class="line">    ProxyCommand C:\Windows\System32\OpenSSH\ssh.exe -W %h:%p SMIC-Machine-Jump</span><br></pre></td></tr></table></figure>
+<p>其中，<code>ProxyCommand</code>中，OpenSSH路径要根据自己的Windows电脑中的位置灵活替换。</p>
+<p>以上，通过这些操作，即可通过Windows直接连接GPU服务器。</p>
+<h2 id="VScode关闭更新"><a href="#VScode关闭更新" class="headerlink" title="VScode关闭更新"></a>VScode关闭更新</h2><p>为了减少离线的GPU服务器中VScode-server的配置次数，关闭Windows本地的VScode的版本更新是一个可以采取的方式，具体方式为：通过设置搜索<code>自动更新</code>，之后将其关闭即可。</p>
+]]></content>
+      <categories>
+        <category>Linux配置</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>VScode</tag>
+      </tags>
+  </entry>
 </search>
